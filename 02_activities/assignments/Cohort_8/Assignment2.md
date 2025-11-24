@@ -45,8 +45,20 @@ There are several tools online you can use, I'd recommend [Draw.io](https://www.
 
 **HINT:** You do not need to create any data for this prompt. This is a logical model (ERD) only. 
 
+```
+
+Please review small_bookstore_logical_model_prompt1.pdf
+
+```
+
 #### Prompt 2
 We want to create employee shifts, splitting up the day into morning and evening. Add this to the ERD.
+
+```
+
+Please review small_bookstore_logical_model_prompt2.png
+
+```
 
 #### Prompt 3
 The store wants to keep customer addresses. Propose two architectures for the CUSTOMER_ADDRESS table, one that will retain changes, and another that will overwrite. Which is type 1, which is type 2? 
@@ -54,7 +66,12 @@ The store wants to keep customer addresses. Propose two architectures for the CU
 **HINT:** search type 1 vs type 2 slowly changing dimensions. 
 
 ```
-Your answer...
+Type 1:
+For the CUSTOMER_ADDRESS table, if we do not wish to retain the history of customer addresses, we could create a one-to-many relationship between the CUSTOMER_ADDRESS table and the customer table. We could create a customer_address_id field in the customer table and thus linking the CUSTOMER_ADDRESS table to the customer table. With this design, it will be possible to map multiple customers to the same primary address, for example, we could have two sisters from the same home who are customers at our bookstore. However, this design will not let us keep a history of the previous address(es) for our customers. For example, if a customer changes address, their customer_address_id in the customer table will be overwritten with a new value and thus we will lose the history of that customer's previous address. 
+
+Type 2:
+For the CUSTOMER_ADDRESS table, if we want to retain the history of customer addresses, we could create a many-to-many relationship between the CUSTOMER_ADDRESS table and the customer table. Perhaps we could create two new tables - one called address and another called CUSTOMER_ADDRESS. The address table will have fields related to address, for example, city, streetname, streetnumber etc. The CUSTOMER_ADDRESS table will link the customer and address tables together. The CUSTOMER_ADDRESS table will have foreign keys customer_id (linking to the customer table) and address_id (linking to the address table). This will let us map multiple customers to the same address, and also help us keep a history of customer addresses. Considering a customer could change address, we could also include a status column in the CUSTOMER_ADDRESS table that specify whether a customer is still living at that address or not. We could also add other fields such as move_date for tracking, for example, if a customer reduce purchase at our store, it could mean they were a frequent shopper when living close to our store and now probably do not shop as frequently because they are living in another city. Having this extra bit of information could help us answer these questions and other analytical questions. 
+
 ```
 
 ***
